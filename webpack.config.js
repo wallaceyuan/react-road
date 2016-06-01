@@ -17,6 +17,20 @@ var definePlugin = new webpack.DefinePlugin({
     __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
 });
 
+var deps = [
+  'jquery/dist/jquery.min.js'
+];
+
+function rewriteUrl(replacePath) {
+  return function (req, opt) {
+    var queryIndex = req.url.indexOf('?');
+    var query = queryIndex >= 0 ? req.url.substr(queryIndex) : "";
+
+    req.url = req.path.replace(opt.path, replacePath) + query;
+    console.log("rewriting ", req.originalUrl, req.url);
+  };
+}
+
 module.exports = {
     devServer: {
       historyApiFallback: true,
@@ -24,7 +38,16 @@ module.exports = {
       inline: true,
       contentBase: './build',
       port: 8080,
-      stats: { colors: true }
+      stats: { colors: true },
+      proxy: [
+            {
+
+              path: /^\/public\/road\/getnowpic\/picid\/(.*)/,
+              target: "http://localhost:8080/",
+              rewrite: rewriteUrl('/$1\.json'),
+              changeOrigin: true
+            }
+        ]
     },
     entry: {
       index: [
@@ -32,7 +55,7 @@ module.exports = {
         'webpack-dev-server/client?http://localhost:8080',
         path.resolve(__dirname, 'app/index.js')
       ],
-      vendor: ['react', 'react-dom']
+      vendor: ['react', 'react-dom','jquery']
     },
     output: {
         path: path.resolve(__dirname, 'build'),
