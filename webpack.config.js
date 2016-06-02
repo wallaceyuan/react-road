@@ -41,8 +41,7 @@ module.exports = {
       stats: { colors: true },
       proxy: [
             {
-
-              path: /^\/public\/road\/getnowpic\/picid\/(.*)/,
+              path: /^\/public\/road\/(.*)/,
               target: "http://localhost:8080/",
               rewrite: rewriteUrl('/$1\.json'),
               changeOrigin: true

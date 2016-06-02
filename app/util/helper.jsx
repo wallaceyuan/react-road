@@ -4,7 +4,6 @@ const picOne = '/public/road/getnowpic/picid/102_0250_L';
 const picTwo = '/public/road/getnowpic/picid/101_0250_L';
 const picThree = '/public/road/getnowpic/picid/100_1001_L';
 
-
 function getOne(){
   return axios.get(picOne);
 }
@@ -15,7 +14,7 @@ function getThree(){
   return axios.get(picThree);
 }
 
-export default function getPics(){
+function getAllPics(){
   return axios.all([
     getOne(),
     getTwo(),
@@ -27,21 +26,13 @@ export default function getPics(){
   ));
 }
 
-
-
-/*export default function getPics(){
-  return axios.get(picOne).then((arr) => ({
-    repos:arr.data.data}
-  ));
+function getRoadByName(road){
+  return axios.get(`/public/road/seagetear/name/${road}`)
 }
-*/
-/*export default function getGithubInfo(username){
-  return axios.all([
-    getPics(),
-    getUserInfo(username)
-  ]).then((arr) => ({
-    repos:arr[0].data,
-    bio:arr[1].data}
-  ));
+
+var fuc = {
+  getAllPics,
+  getRoadByName
 }
-*/
+
+export default fuc

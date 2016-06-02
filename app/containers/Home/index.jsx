@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import getPics from '../../util/helper.jsx'
+import fuc from '../../util/helper.jsx'
 import { Slide,SearchRoad } from '../../components';
 
 class Home extends Component {
@@ -7,7 +7,7 @@ class Home extends Component {
     pics: ['a','b','c']
   }
   componentDidMount(){
-    getPics()
+    fuc.getAllPics()
     .then((data) =>{
       var picone = `data:image/png;base64,${data.p1[0]}`;
       var pictwo = `data:image/png;base64,${data.p2[0]}`;
@@ -60,4 +60,5 @@ class Home extends Component {
     )
   }
 }
+
 export default Home
