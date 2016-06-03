@@ -1,8 +1,9 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react';
+import './index.css';
 
-class TimeRList extends Component {
+class TimeList extends Component {
   render(){
-    let lists = this.props.list.map((list,index) =>{
+    let lists = this.props.lists.map((list,index) =>{
         return(
           <div className="in" key={index}>
             <div className="inW">
@@ -20,4 +21,4 @@ class TimeRList extends Component {
   }
 }
 
-export default TimeRList
+export default TimeList

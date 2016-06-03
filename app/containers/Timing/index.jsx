@@ -1,10 +1,11 @@
 import React,{Component} from 'react'
 import fc from '../../util/helper.jsx'
-import TimeRList from './list.jsx';
+import { TimeList,SearchRoad } from '../../components';
 
 class Timing extends Component {
   state = {
-    list: []
+    list: [],
+    display:'none'
   }
   componentWillReceiveProps(nextProps){
     console.log('componentWillReceiveProps');
@@ -25,10 +26,10 @@ class Timing extends Component {
   componentWillMount(){
     var _this = this;
     let road = this.props.params.roadName;
-
     fc.getRoadByName(road).then(function (response) {
       _this.setState({
-        list:response.data
+        list:response.data,
+        display:'block'
       });
     })
     .catch(function (response) {
@@ -40,13 +41,17 @@ class Timing extends Component {
   }
 
   render(){
-    console.log(this.state.list);
+    var MyComponentStyles = {
+        display: this.state.display
+    };
     return(
-      <div>
+      <div className="timing">
         <h2>我是Profile我是Profile</h2>
         <div className="show cur">
+          <SearchRoad />
+          <p className="result" style={MyComponentStyles}>搜索结果：</p>
           <div className="jg">
-            <TimeRList list={this.state.list} />
+            <TimeList lists={this.state.list} />
           </div>
         </div>
       </div>
@@ -54,7 +59,6 @@ class Timing extends Component {
   }
 
   componentDidMount() {
-
       console.log('componentDidMount');
   }
 
