@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import fuc from '../../util/helper.jsx'
 import { Slide,SearchRoad } from '../../components';
+import { addTodo } from '../../actions/index.jsx'
 
 class Home extends Component {
   state = {
@@ -20,6 +21,7 @@ class Home extends Component {
   }
   render(){
     var style = {width:'12px',height:'12px',display:'block'};
+    const { dispatch } = this.props;
     return(
       <div>
           <img src="../../public/images/icon_s.png" style={style} className="jt"/>
@@ -27,7 +29,7 @@ class Home extends Component {
             <div className='pagination clearfix'></div>
           </div>
           <Slide pics={this.state.pics} />
-          <SearchRoad />
+          <SearchRoad onAddClick={text => dispatch(addTodo(text)) } />
           <div className="road-index">
       			<ul>
       				<li className="clearfix">

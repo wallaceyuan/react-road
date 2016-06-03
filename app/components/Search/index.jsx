@@ -1,12 +1,14 @@
 import React ,{ Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 import fc from '../../util/helper.jsx';
+import { addTodo  } from '../../actions/index.jsx'
 
 class SearchRoad extends Component {
   getRef(ref){
     this.roadNameRef = ref;
   }
   handleClick(){
+    var _this = this;
     const roadName = this.roadNameRef.value;
     if(roadName==''){
       alert("太任性了，说好的内容呢");
@@ -15,8 +17,9 @@ class SearchRoad extends Component {
     }else{
       fc.getRoadByName(roadName).then(function (response) {
         const path = `/timing/${roadName}`;
-        browserHistory.push(path)
-        console.log(response);
+        console.log('response',response);
+        _this.props.onAddClick(response);
+        //browserHistory.push(path)
       })
       .catch(function (response) {
         alert('您输入的道路暂未录入可查询范围');
@@ -31,6 +34,13 @@ class SearchRoad extends Component {
         <a href="javascript:void(0)" id="check" onClick={()=>this.handleClick()}></a>
       </div>
     );
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  // dispatch(action) { }
+  return {
+    onIncreaseClick: () => dispatch(increaseAction)
   }
 }
 
