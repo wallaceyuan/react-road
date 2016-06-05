@@ -1,7 +1,9 @@
 import React,{Component} from 'react'
+import { connect } from 'react-redux'
+
 import fuc from '../../util/helper.jsx'
 import { Slide,SearchRoad } from '../../components';
-import { addTodo } from '../../actions/index.jsx'
+import { addTodo,replaceTodo } from '../../actions/index.jsx'
 
 class Home extends Component {
   state = {
@@ -21,7 +23,8 @@ class Home extends Component {
   }
   render(){
     var style = {width:'12px',height:'12px',display:'block'};
-    const { dispatch } = this.props;
+    const { dispatch, propinfos } = this.props
+    console.log(this.props);
     return(
       <div>
           <img src="../../public/images/icon_s.png" style={style} className="jt"/>
@@ -29,7 +32,7 @@ class Home extends Component {
             <div className='pagination clearfix'></div>
           </div>
           <Slide pics={this.state.pics} />
-          <SearchRoad onAddClick={text => dispatch(addTodo(text)) } />
+          <SearchRoad infos={propinfos} onAddClick={text =>dispatch(replaceTodo(text))} />
           <div className="road-index">
       			<ul>
       				<li className="clearfix">
@@ -63,4 +66,11 @@ class Home extends Component {
   }
 }
 
-export default Home
+function select(state) {
+  return {
+    visibilityFilter: state.propinfos
+  }
+}
+
+// 包装 component ，注入 dispatch 和 state 到其默认的 connect(select)(App) 中；
+export default connect(select)(Home)

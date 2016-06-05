@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import { ADD_TODO ,COMPLETE_TODO} from '../actions/index.jsx'
+import { ADD_TODO ,COMPLETE_TODO,REPLACE_TODO} from '../actions/index.jsx'
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 
 function todos(state = [], action) {
@@ -20,14 +21,19 @@ function todos(state = [], action) {
         }),
         ...state.slice(action.index + 1)
       ]
+   case REPLACE_TODO:
+      return {
+        text: action.text,
+        completed: false
+      }
     default:
       return state
   }
 }
 
-
 const todoApp = combineReducers({
-  todos
+  todos,
+  routing: routerReducer
 })
 
 export default todoApp
