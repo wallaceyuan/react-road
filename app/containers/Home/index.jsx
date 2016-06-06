@@ -68,7 +68,7 @@ class Home extends Component {
 
 function select(state) {
   return {
-    visibilityFilter: state.propinfos
+    propinfos: state.todos
   }
 }
 

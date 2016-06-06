@@ -17,9 +17,9 @@ class SearchRoad extends Component {
     }else{
       fc.getRoadByName(roadName).then(function (response) {
         const path = `/timing/${roadName}`;
-        console.log('response',response);
+        //console.log('response',response);
         _this.props.onAddClick(response);
-        //browserHistory.push(path)
+        browserHistory.push(path)
       })
       .catch(function (response) {
         alert('您输入的道路暂未录入可查询范围');

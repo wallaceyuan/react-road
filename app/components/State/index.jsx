@@ -2,7 +2,6 @@ import React,{Component} from 'react'
 import { connect } from 'react-redux'
 import fc from '../../util/helper.jsx'
 import { TimeList,SearchRoad } from '../../components';
-import { addTodo,replaceTodo } from '../../actions/index.jsx'
 
 class Timing extends Component {
   state = {
@@ -26,32 +25,27 @@ class Timing extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props);
-
     var _this = this;
-    const { dispatch, propinfos } = this.props
-    if(this.props.propinfos.length != 0){
-      let road = this.props.params.roadName;
-      fc.getRoadByName(road).then(function (response) {
-        _this.setState({
-          display:'block'
-        });
-
-      })
-      .catch(function (response) {
-        //alert('您输入的道路暂未录入可查询范围');
-        console.log(response);
-      });
-    }else{
+    let road = this.props.params.roadName;
+    fc.getRoadByName(road).then(function (response) {
       _this.setState({
+        list:response.data,
         display:'block'
       });
-    }
+    })
+    .catch(function (response) {
+      //alert('您输入的道路暂未录入可查询范围');
+      console.log(response);
+    });
+
     console.log('componentWillMount');
   }
 
   render(){
     const { dispatch, propinfos } = this.props
+    //console.log( this.props.propinfos.text.data);
+    //let data = this.props.propinfos.text;
+    //console.log(this.props.propinfos);
     var MyComponentStyles = {
         display: this.state.display
     };
@@ -59,10 +53,10 @@ class Timing extends Component {
       <div className="timing">
         <h2>我是Profile我是Profile</h2>
         <div className="show cur">
-          <SearchRoad infos={propinfos} onAddClick={text =>dispatch(replaceTodo(text))} />
+          <SearchRoad />
           <p className="result" style={MyComponentStyles}>搜索结果：</p>
           <div className="jg">
-            <TimeList lists={propinfos} />
+            <TimeList lists={this.state.list} />
           </div>
         </div>
       </div>
@@ -81,6 +75,8 @@ class Timing extends Component {
       console.log('componentWillUnmount');
   }
 }
+
+
 
 function select(state) {
   return {
