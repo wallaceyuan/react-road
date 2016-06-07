@@ -2,8 +2,8 @@ import React,{Component} from 'react'
 import { connect } from 'react-redux'
 
 import fuc from '../../util/helper.jsx'
-import { Slide,SearchRoad } from '../../components';
-import { addTodo,replaceTodo } from '../../actions/index.jsx'
+import { Slide,SearchRoad,Warning } from '../../components';
+import { addTodo,replaceTodo,warnText,cleanWarn } from '../../actions/index.jsx'
 
 class Home extends Component {
   state = {
@@ -23,8 +23,7 @@ class Home extends Component {
   }
   render(){
     var style = {width:'12px',height:'12px',display:'block'};
-    const { dispatch, propinfos } = this.props
-    console.log(this.props);
+    const { dispatch, propinfos,warn } = this.props
     return(
       <div>
           <img src="../../public/images/icon_s.png" style={style} className="jt"/>
@@ -32,7 +31,12 @@ class Home extends Component {
             <div className='pagination clearfix'></div>
           </div>
           <Slide pics={this.state.pics} />
-          <SearchRoad infos={propinfos} onAddClick={text =>dispatch(replaceTodo(text))} />
+          <SearchRoad
+            infos={propinfos}
+            onAddClick={text =>dispatch(replaceTodo(text))}
+            onErr={err =>dispatch(warnText(err)) }
+            onClean={err=> dispatch(cleanWarn(err)) } />
+          <Warning warn = {warn} />
           <div className="road-index">
       			<ul>
       				<li className="clearfix">
@@ -68,7 +72,8 @@ class Home extends Component {
 
 function select(state) {
   return {
-    propinfos: state.todos
+    propinfos: state.todos,
+    warn:state.warnTodo
   }
 }
 

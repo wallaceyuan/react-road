@@ -11,26 +11,30 @@ class SearchRoad extends Component {
     var _this = this;
     const roadName = this.roadNameRef.value;
     if(roadName==''){
-      alert("太任性了，说好的内容呢");
-      //$('#warning').html("太任性了，说好的内容呢").css('display','block');
+      _this.props.onErr('太任性了，说好的内容呢');
       return
     }else{
       fc.getRoadByName(roadName).then(function (response) {
         const path = `/timing/${roadName}`;
-        //console.log('response',response);
         _this.props.onAddClick(response);
+        _this.props.onClean(' ');
         browserHistory.push(path)
       })
       .catch(function (response) {
-        alert('您输入的道路暂未录入可查询范围');
+        _this.props.onErr('您输入的道路暂未录入可查询范围');
         console.log(response);
       });
     }
   }
+  focus = ()=>{
+    this.props.onClean();
+  }
   render(){
    return(
       <div className="inputw">
-        <input name="fdjh" type="text" id="search" placeholder="请输入您要查询的路段" ref={(ref)=>this.getRef(ref)}/>
+        <input name="fdjh" type="text" id="search" placeholder="请输入您要查询的路段"
+          ref={(ref)=>this.getRef(ref)}
+          onFocus={ this.focus } />
         <a href="javascript:void(0)" id="check" onClick={()=>this.handleClick()}></a>
       </div>
     );
@@ -38,7 +42,6 @@ class SearchRoad extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  // dispatch(action) { }
   return {
     onIncreaseClick: () => dispatch(increaseAction)
   }

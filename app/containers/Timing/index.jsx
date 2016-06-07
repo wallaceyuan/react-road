@@ -1,8 +1,8 @@
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
 import fc from '../../util/helper.jsx'
-import { TimeList,SearchRoad } from '../../components';
-import { addTodo,replaceTodo } from '../../actions/index.jsx'
+import { TimeList,SearchRoad,Warning } from '../../components';
+import { addTodo,replaceTodo,warnText,cleanWarn } from '../../actions/index.jsx'
 
 class Timing extends Component {
   state = {
@@ -26,32 +26,25 @@ class Timing extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props);
-
-    var _this = this;
     const { dispatch, propinfos } = this.props
-    if(this.props.propinfos.length != 0){
+    if(propinfos.length == 0){
       let road = this.props.params.roadName;
       fc.getRoadByName(road).then(function (response) {
-        _this.setState({
-          display:'block'
-        });
-
+          dispatch(replaceTodo(response))
+          dispatch(cleanWarn(' '))
       })
       .catch(function (response) {
-        //alert('您输入的道路暂未录入可查询范围');
-        console.log(response);
-      });
-    }else{
-      _this.setState({
-        display:'block'
+        dispatch(warnText('您输入的道路暂未录入可查询范围'))
       });
     }
+    this.setState({
+      display:'block'
+    });
     console.log('componentWillMount');
   }
 
   render(){
-    const { dispatch, propinfos } = this.props
+    const { dispatch, propinfos,warn } = this.props;
     var MyComponentStyles = {
         display: this.state.display
     };
@@ -59,10 +52,15 @@ class Timing extends Component {
       <div className="timing">
         <h2>我是Profile我是Profile</h2>
         <div className="show cur">
-          <SearchRoad infos={propinfos} onAddClick={text =>dispatch(replaceTodo(text))} />
+          <SearchRoad
+            infos={propinfos}
+            onAddClick={text =>dispatch(replaceTodo(text))}
+            onErr={err =>dispatch(warnText(err)) }
+            onClean={err=> dispatch(cleanWarn(err)) } />
+          <Warning warn = {warn} />
           <p className="result" style={MyComponentStyles}>搜索结果：</p>
           <div className="jg">
-            <TimeList lists={propinfos} />
+            <TimeList lists={propinfos.length != 0?propinfos.text.data: []} />
           </div>
         </div>
       </div>
@@ -84,7 +82,8 @@ class Timing extends Component {
 
 function select(state) {
   return {
-    propinfos: state.todos
+    propinfos: state.todos,
+    warn:state.warnTodo
   }
 }
 
