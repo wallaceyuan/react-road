@@ -12,7 +12,7 @@ let root = document.getElementById('app');
 const history = syncHistoryWithStore(browserHistory, store)
 
 const handleChange =  () => {
-  console.log(store.getState());
+  console.log('getState',store.getState());
 }
 
 let unsubscribe = store.subscribe(handleChange)

@@ -16,7 +16,7 @@ class SearchRoad extends Component {
     }else{
       fc.getRoadByName(roadName).then(function (response) {
         const path = `/timing/${roadName}`;
-        _this.props.onAddClick(response);
+        _this.props.onAddClick(response,path);
         _this.props.onClean(' ');
         browserHistory.push(path)
       })

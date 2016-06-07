@@ -14,8 +14,8 @@ export function completeTodo(index) {
   return { type: COMPLETE_TODO, index }
 }
 
-export function replaceTodo(text) {
-  return { type: REPLACE_TODO, text }
+export function replaceTodo(text,path='') {
+  return { type: REPLACE_TODO, text,path }
 }
 
 export function warnText(err) {

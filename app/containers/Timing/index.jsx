@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
 import fc from '../../util/helper.jsx'
-import { TimeList,SearchRoad,Warning } from '../../components';
+import { TimeList ,SearchRoad ,Warning ,Choose } from '../../components';
 import { addTodo,replaceTodo,warnText,cleanWarn } from '../../actions/index.jsx'
 
 class Timing extends Component {
@@ -50,11 +50,11 @@ class Timing extends Component {
     };
     return(
       <div className="timing">
-        <h2>我是Profile我是Profile</h2>
+        <Choose />
         <div className="show cur">
           <SearchRoad
             infos={propinfos}
-            onAddClick={text =>dispatch(replaceTodo(text))}
+            onAddClick={(text,path) =>dispatch(replaceTodo(text,path))}
             onErr={err =>dispatch(warnText(err)) }
             onClean={err=> dispatch(cleanWarn(err)) } />
           <Warning warn = {warn} />

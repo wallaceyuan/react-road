@@ -46,6 +46,7 @@ function todos(state = [], action) {
    case REPLACE_TODO:
       return {
         text: action.text,
+        path: action.path,
         completed: false
       }
     default:

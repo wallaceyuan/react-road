@@ -33,7 +33,7 @@ class Home extends Component {
           <Slide pics={this.state.pics} />
           <SearchRoad
             infos={propinfos}
-            onAddClick={text =>dispatch(replaceTodo(text))}
+            onAddClick={(text,path) =>dispatch(replaceTodo(text,path))}
             onErr={err =>dispatch(warnText(err)) }
             onClean={err=> dispatch(cleanWarn(err)) } />
           <Warning warn = {warn} />
