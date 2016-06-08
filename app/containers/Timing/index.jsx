@@ -1,8 +1,8 @@
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
-import fc from '../../util/helper.jsx'
 import { TimeList ,SearchRoad ,Warning ,Choose } from '../../components';
 import { addTodo,replaceTodo,warnText,cleanWarn } from '../../actions/index.jsx'
+import Timelink from '../../links/time.jsx'
 
 class Timing extends Component {
   state = {
@@ -29,13 +29,7 @@ class Timing extends Component {
     const { dispatch, propinfos } = this.props
     if(propinfos.length == 0){
       let road = this.props.params.roadName;
-      fc.getRoadByName(road).then(function (response) {
-          dispatch(replaceTodo(response))
-          dispatch(cleanWarn(' '))
-      })
-      .catch(function (response) {
-        dispatch(warnText('您输入的道路暂未录入可查询范围'))
-      });
+      dispatch(cleanWarn(' '))
     }
     this.setState({
       display:'block'
@@ -44,24 +38,23 @@ class Timing extends Component {
   }
 
   render(){
-    const { dispatch, propinfos,warn } = this.props;
     var MyComponentStyles = {
         display: this.state.display
     };
+    const { dispatch, propinfos,warn } = this.props;
     return(
       <div className="timing">
-        <Choose />
+        <Timelink />
         <div className="show cur">
           <SearchRoad
+            index={'timing'}
             infos={propinfos}
             onAddClick={(text,path) =>dispatch(replaceTodo(text,path))}
             onErr={err =>dispatch(warnText(err)) }
             onClean={err=> dispatch(cleanWarn(err)) } />
           <Warning warn = {warn} />
-          <p className="result" style={MyComponentStyles}>搜索结果：</p>
-          <div className="jg">
-            <TimeList lists={propinfos.length != 0?propinfos.text.data: []} />
-          </div>
+          {propinfos.length == 0?'':<p className="result" style={MyComponentStyles}>搜索结果：</p>}
+          {propinfos.length == 0?'':<div className="jg"><TimeList lists={propinfos.length != 0?propinfos.text.data: []} /></div>}
         </div>
       </div>
     )

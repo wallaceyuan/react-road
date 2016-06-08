@@ -15,7 +15,7 @@ class SearchRoad extends Component {
       return
     }else{
       fc.getRoadByName(roadName).then(function (response) {
-        const path = `/timing/${roadName}`;
+        const path = `/timing/?${roadName}`;
         _this.props.onAddClick(response,path);
         _this.props.onClean(' ');
         browserHistory.push(path)
@@ -30,13 +30,16 @@ class SearchRoad extends Component {
     this.props.onClean();
   }
   render(){
-   return(
-      <div className="inputw">
-        <input name="fdjh" type="text" id="search" placeholder="请输入您要查询的路段"
-          ref={(ref)=>this.getRef(ref)}
-          onFocus={ this.focus } />
-        <a href="javascript:void(0)" id="check" onClick={()=>this.handleClick()}></a>
-      </div>
+    let infsL = this.props.infos.length;
+    let ind = this.props.index;
+    return(
+     <div>
+       <div className="inputw">
+         <input name="fdjh" type="text" id="search" placeholder="请输入您要查询的路段" ref={(ref)=>this.getRef(ref)} onFocus={ this.focus }/>
+         {ind=='index'||infsL!=0?<a href="javascript:void(0)" id="check" onClick={()=>this.handleClick()}></a>:''}
+       </div>
+       {infsL==0&&ind=='timing'?<a id="nonecheck" href="javascript:void(0)" onClick={()=>this.handleClick()}>搜&nbsp;&nbsp;索</a>:''}
+     </div>
     );
   }
 }
