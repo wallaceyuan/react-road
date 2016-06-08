@@ -7,6 +7,6 @@ export default (
     <IndexRoute component={Home} />
     <Route path="timing/"  component={Timing} />
     <Route path="section/" component={Section} />
-    <Route path="smoney/"  component={Smoney} />
+    <Route path="smoney/"  component={Smoney} onEnter={({params}, replace) => replace('/timing/')}/>
   </Route>
 )

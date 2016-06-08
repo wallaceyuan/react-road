@@ -1,5 +1,7 @@
 import React,{Component} from 'react'
 import { connect } from 'react-redux'
+import { Router ,browserHistory ,Link } from 'react-router';
+
 import fuc from '../../util/helper.jsx'
 import { Slide,SearchRoad,Warning } from '../../components';
 import { addTodo,replaceTodo,warnText,cleanWarn } from '../../actions/index.jsx'
@@ -7,6 +9,9 @@ import { addTodo,replaceTodo,warnText,cleanWarn } from '../../actions/index.jsx'
 class Home extends Component {
   state = {
     pics: ['a','b','c']
+  }
+  componentWillMount(){
+    console.log(this.props);
   }
   componentDidMount(){
     fuc.getAllPics()
@@ -40,20 +45,12 @@ class Home extends Component {
           <div className="road-index">
       			<ul>
       				<li className="clearfix">
-      						<a className="road-list" id="one" href="/section/">
-      								<p>分路段实时交通详情</p>
-      						</a>
-      						<a className="road-list" id="two" href="/public/road/snapshot">
-      								<p>道路实况快照</p>
-      						</a>
+                <Link to="/section/" id="one" className="road-list"><p>分路段实时交通详情</p></Link>
+                <Link to="/snapshot/" id="two" className="road-list"><p>道路实况快照</p></Link>
       				</li>
       				<li className="clearfix">
-      						<a className="road-list" id="three" href="/public/road/splan">
-      								<p>高架封路计划</p>
-      						</a>
-      						<a className="road-list" id="four" href="/public/road/snight">
-      								<p>夜间施工备案</p>
-      						</a>
+                <Link to="/splan/" id="three" className="road-list"><p>高架封路计划</p></Link>
+                <Link to="/snight/" id="four" className="road-list"><p>夜间施工备案</p></Link>
       				</li>
       				<li className="clearfix">
       						<a className="road-list" id="five" href="/public/road/sblock">
